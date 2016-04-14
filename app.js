@@ -35,19 +35,36 @@ function directive1(service1) {
     return {
         restrict: 'E',
         scope: {},
+        compile: compilefunc,
         controller: directive1Controller,
         controllerAs: 'dr1ctrl',
         template: '<div> <input type="button" ng-click="dr1ctrl.sayDirective1()" value="Directive 1"></div>'
     }
 
     function directive1Controller() {
+        console.log('controller step');
         this.sayDirective1 = sayDirective1;
 
         function sayDirective1() {
             service1.service_model.value1 = 'Hi I was set by the Directive 1';
         }
     }
-    
+
+    function compilefunc() {
+        console.log('compile step');
+        return {
+            pre: prefunc,
+            post: postfunc
+        }
+
+        function prefunc() {
+            console.log('pre-link phase');
+        }
+
+        function postfunc() {
+            console.log('post-link phase');
+        }
+    }
 }
 
 //DIRECTIVE: Directive 2
